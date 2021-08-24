@@ -1,6 +1,5 @@
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
-import org.apache.log4j.Logger
-import org.apache.log4j.Level
 
 
 object SparkScalaCode {
@@ -10,7 +9,7 @@ object SparkScalaCode {
 
   println("Hello world.!")
 
-  def main(args:Array[String]): Unit ={
+  def main(args: Array[String]): Unit = {
 
     val spark = SparkSession.builder()
       .master("local[*]")
@@ -20,13 +19,15 @@ object SparkScalaCode {
     spark.sparkContext.setLogLevel("ERROR")
 
     println("First SparkContext: ")
-    println("APP Name : "+spark.sparkContext.appName);
-    println("Deploy Mode : "+spark.sparkContext.deployMode);
-    println("Master : "+spark.sparkContext.master);
+    println("APP Name : " + spark.sparkContext.appName);
+    println("Deploy Mode : " + spark.sparkContext.deployMode);
+    println("Master : " + spark.sparkContext.master);
 
-    val mydf = spark.read.format("csv").option("header", "true").load("/Users/c0s0etz/Documents/OlympicData.csv")
+    val mydf = spark.read.format("csv").option("header", "true").load("/Users/c0s0etz/Documents/SampleData/SalesRecords.csv")
 
     mydf.show(false)
+
+    println("mydf count: " + mydf.count())
     spark.stop()
   }
 }
