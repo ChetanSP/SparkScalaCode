@@ -1,9 +1,9 @@
 package SparkInterviewQuestions
 
-import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql._
 import org.apache.spark.sql.expressions.Window._
 import org.apache.spark.sql.functions.{col, lag, sum}
+import org.apache.spark.storage.StorageLevel
 
 
 object InterviewQuestions extends App {
@@ -35,7 +35,7 @@ object InterviewQuestions extends App {
       +---+-----+
   */
 
-  val mydf1 = Seq(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).toDF("ID")
+  val mydf1 = Seq(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).toDF("ID").persist(StorageLevel.MEMORY_AND_DISK)
 
   val windo1 = orderBy("ID")
 
@@ -61,5 +61,8 @@ object InterviewQuestions extends App {
   val windo2 = orderBy("ID").rangeBetween(org.apache.spark.sql.expressions.Window.unboundedPreceding, 0)
 
   mydf1.withColumn("NewID", sum("ID").over(windo2)).show(false)
+
+
+
 
 }
